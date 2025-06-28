@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gestion_de_temps/homePage.dart';
 
+import 'timer.dart';
+
 void main(){
   runApp(MyApp());
 }

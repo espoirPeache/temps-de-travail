@@ -8,11 +8,15 @@ class CountTimer{
   late Duration _time;
   late Duration _fulltime;
 
+  final int _work = 30;
+  var percent;
+  late String time;
+
   String returnTime(Duration t){
-    String minutes = (t.inMinutes < 10)? "0"+t.inMinutes.toString(): t.inMinutes.toString();
+    String minutes = (t.inMinutes < 10)? "0${t.inMinutes}": t.inMinutes.toString();
     int minSeconds = t.inSeconds -(t.inMinutes*60);
-    String seconds = (minSeconds < 10) ? "0"+minSeconds.toString() : minSeconds.toString();
-    return minutes + ":" +seconds;
+    String seconds = (minSeconds < 10) ? "0$minSeconds" : minSeconds.toString();
+    return "$minutes:$seconds";
   }
 
   Stream<TimerModel> stream() async*{
@@ -31,5 +35,12 @@ class CountTimer{
     );
   }
 
+  void startWork(){
+    _raduis = 1;
+    _time = Duration(minutes: _work, seconds: 0);
+    _fulltime = _time;
+
+
+  }
 
 }

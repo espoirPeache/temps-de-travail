@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:gestion_de_temps/timerModel.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
+import 'timer.dart';
 import 'widget.dart';
 
 class Homepage extends StatelessWidget {
-  const Homepage({super.key});
+   Homepage({super.key});
 
   final paddingDefault = 8.0;
+  final CountTimer timer = CountTimer();
+
   void method1(){
 
   }
@@ -16,6 +20,7 @@ class Homepage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    timer.startWork();
     return Scaffold(
       appBar: AppBar(
         title: Text("Mon temps de travail"),
@@ -52,17 +57,55 @@ class Homepage extends StatelessWidget {
                     ),
                   ],
                 ),
-                Expanded(
-                    child: CircularPercentIndicator(
-                        radius: width/2.3,
-                      lineWidth: 20,
-                      percent: 0.8,
-                      backgroundColor: Colors.blue,
-                      center: Text("30:00", style: Theme.of(context).textTheme   .displayMedium,),
-                      progressColor: Colors.lightGreen,
+                StreamBuilder(
+                  stream: timer.stream(),
+                  initialData: "00:00",
+                  builder: (context, asyncSnapshot) {
+                    TimerModel timer = (asyncSnapshot.data == "00:00") ? TimerModel("00:00", 1): asyncSnapshot.data as TimerModel;
+                    return Expanded(
+                        child: CircularPercentIndicator(
+                          radius: width / 2.3,
+                          lineWidth: 20,
+                          animation: true,
+                          animateFromLastPercent: true,
+                          percent: timer.percent,
+                          reverse: true,  // de droite vers la gauche
+                          backgroundColor: Colors.grey.shade900,
+                          circularStrokeCap: CircularStrokeCap.round, // bouts arrondis
+                          linearGradient: LinearGradient(
+                            colors: [
+                              Colors.cyanAccent,
+                              Colors.blueAccent,
+                              Colors.deepPurpleAccent,
+                            ],
+                          ),
+                          center: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.black.withOpacity(0.6),
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            padding: EdgeInsets.all(12),
+                            child: Text(
+                              timer.time,
+                              style: TextStyle(
+                                fontSize: 36,
+                                fontFamily: 'RobotoMono', // police numérique sympa
+                                fontWeight: FontWeight.bold,
+                                color: Colors.cyanAccent,
+                                shadows: [
+                                  Shadow(
+                                    blurRadius: 10,
+                                    color: Colors.cyanAccent.withOpacity(0.7),
+                                    offset: Offset(0, 0),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                        )
 
-
-                    )
+                    );
+                  }
                 ),
                 Row(
                   children: [
