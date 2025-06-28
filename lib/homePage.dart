@@ -25,6 +25,7 @@ class Homepage extends StatelessWidget {
       body: LayoutBuilder(
           builder: (context, BoxConstraints contraints){
             final double width = contraints.maxWidth;
+            final double height = contraints.maxHeight;
             return Column(
               children: [
                 Row(
@@ -53,11 +54,11 @@ class Homepage extends StatelessWidget {
                 ),
                 Expanded(
                     child: CircularPercentIndicator(
-                        radius: width/2.5,
+                        radius: width/2.3,
                       lineWidth: 20,
                       percent: 0.8,
                       backgroundColor: Colors.blue,
-                      center: Text("30:00", style: Theme.of(context).textTheme.displayMedium,),
+                      center: Text("30:00", style: Theme.of(context).textTheme   .displayMedium,),
                       progressColor: Colors.lightGreen,
 
 
