@@ -11,13 +11,6 @@ class Homepage extends StatelessWidget {
   final paddingDefault = 8.0;
   final CountTimer timer = CountTimer();
 
-  void method1(){
-
-  }
-  void method2(){
-
-  }
-
   @override
   Widget build(BuildContext context) {
     timer.startWork();
@@ -38,20 +31,20 @@ class Homepage extends StatelessWidget {
                     Expanded(
                       child: Padding(
                         padding: EdgeInsets.all(paddingDefault),
-                        child: Button(color: Colors.blueAccent, size: 0, text: "Travail", onPresed: method1,),
+                        child: Button(color: Colors.blueAccent, size: 0, text: "Travail", onPresed:()=> timer.startWork(),),
                       ),
                     ),
                     Expanded(
                       child: Padding(
                         padding: EdgeInsets.all(paddingDefault),
-                        child: Button(color: Colors.lightBlueAccent, size: 0, text: "Pause courte", onPresed: method1,),
+                        child: Button(color: Colors.lightBlueAccent, size: 0, text: "Pause courte", onPresed:()=>timer.startBreak(true),),
 
                       ),
                     ),
                     Expanded(
                       child: Padding(
                         padding: EdgeInsets.all(paddingDefault),
-                        child: Button(color: Colors.blueGrey, size: 0, text: "Pause longue", onPresed: method1,),
+                        child: Button(color: Colors.blueGrey, size: 0, text: "Pause longue", onPresed:()=>timer.startBreak(false)),
 
                       ),
                     ),
@@ -89,7 +82,7 @@ class Homepage extends StatelessWidget {
                               timer.time,
                               style: TextStyle(
                                 fontSize: 36,
-                                fontFamily: 'RobotoMono', // police numérique sympa
+                                fontFamily: 'Digital', // police numérique sympa
                                 fontWeight: FontWeight.bold,
                                 color: Colors.cyanAccent,
                                 shadows: [
@@ -112,13 +105,13 @@ class Homepage extends StatelessWidget {
                     Expanded(
                         child: Padding(
                           padding: EdgeInsets.all(paddingDefault),
-                          child: Button(size: 0, color: Colors.red, text: "stop", onPresed: method2),
+                          child: Button(size: 0, color: Colors.red, text: "stop", onPresed:()=> timer.stopTimer()),
                         )
                     ),
                     Expanded(
                         child: Padding(
                           padding: EdgeInsets.all(paddingDefault),
-                          child: Button(size: 0, color: Colors.green, text: "start", onPresed:method2),
+                          child: Button(size: 0, color: Colors.green, text: "start", onPresed:()=> timer.startTimer()),
                         )
                     )
                   ],

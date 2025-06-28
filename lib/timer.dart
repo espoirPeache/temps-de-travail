@@ -8,7 +8,9 @@ class CountTimer{
   late Duration _time;
   late Duration _fulltime;
 
-  final int _work = 30;
+  final int _work = 20;
+  int pauseCourte = 5;
+  int pauseLongue = 15;
   var percent;
   late String time;
 
@@ -39,7 +41,19 @@ class CountTimer{
     _raduis = 1;
     _time = Duration(minutes: _work, seconds: 0);
     _fulltime = _time;
-
+  }
+  void stopTimer(){
+    _isActive = false;
+  }
+  void startTimer(){
+    if(_time.inSeconds > 0){
+      _isActive = true;
+    }
+  }
+  void startBreak(bool isShort){
+    _raduis = 1;
+    _time = Duration(minutes: (isShort)? pauseCourte : pauseLongue, seconds: 0);
+    _fulltime = _time;
 
   }
 
