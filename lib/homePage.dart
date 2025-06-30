@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gestion_de_temps/settings.dart';
 import 'package:gestion_de_temps/timerModel.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
@@ -10,15 +11,42 @@ class Homepage extends StatelessWidget {
 
   final paddingDefault = 8.0;
   final CountTimer timer = CountTimer();
+  final List<PopupMenuEntry<String>> _listmenu = [
+    PopupMenuItem(
+   value: "Parametre",
+   child: Text("Parametre")
+   )
+  ];
 
+  void gotoSettings(BuildContext context){
+    Navigator.push(
+        context, MaterialPageRoute(
+        builder: (context)=> Settings()
+      )
+    );
+  }
   @override
   Widget build(BuildContext context) {
+
     timer.startWork();
     return Scaffold(
       appBar: AppBar(
         title: Text("Mon temps de travail"),
         centerTitle: true,
         backgroundColor: Theme.of(context).primaryColor,
+        actions: [
+          PopupMenuButton(
+              itemBuilder: (context){
+                return _listmenu;
+              },
+            onSelected: (value){
+                if(value == "Parametre"){
+                  gotoSettings(context);
+                }
+
+            },
+          )
+        ],
       ),
       body: LayoutBuilder(
           builder: (context, BoxConstraints contraints){
@@ -58,7 +86,7 @@ class Homepage extends StatelessWidget {
                     return Expanded(
                         child: CircularPercentIndicator(
                           radius: width / 2.3,
-                          lineWidth: 20,
+                          lineWidth: 30,
                           animation: true,
                           animateFromLastPercent: true,
                           percent: timer.percent,

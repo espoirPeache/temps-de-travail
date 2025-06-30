@@ -8,21 +8,39 @@ const  Button({required this.size, required this.color, required this.text, requ
   final double size;
   final VoidCallback onPresed;
 
-
-
   @override
   Widget build(BuildContext context) {
     return MaterialButton(
       onPressed: this.onPresed,
       color: this.color,
       minWidth: this.size,
-
       child: Text(this.text, style:  TextStyle(
           color: Colors.white70
         ),
       ),
+    );
+  }
+}
 
+class SettingsButton extends StatelessWidget {
+  final Color color;
+  final String text;
+  final int value;
 
+  const SettingsButton(this.color, this.text, this.value, {super.key});
+  @override
+  Widget build(BuildContext context) {
+    return MaterialButton(
+        child:
+          Text(text,
+            style: TextStyle(
+              color: Colors.white70
+            ),
+        ),
+      onPressed: (){
+
+      },
+      color: color,
 
     );
   }
