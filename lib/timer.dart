@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'timerModel.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CountTimer{
   double _raduis = 1;
@@ -13,6 +14,14 @@ class CountTimer{
   int pauseLongue = 15;
   var percent;
   late String time;
+
+  Future<void> loadValues() async {
+    final prefs = await SharedPreferences.getInstance();
+
+    work = prefs.getInt('work') ?? 20;
+    pauseCourte = prefs.getInt('pauseCourte') ?? 5;
+    pauseLongue = prefs.getInt('pauseLongue') ?? 15;
+  }
 
   String returnTime(Duration t){
     String minutes = (t.inMinutes < 10)? "0${t.inMinutes}": t.inMinutes.toString();
@@ -36,6 +45,15 @@ class CountTimer{
     }
     );
   }
+
+  Future<void> saveValues() async {
+    final prefs = await SharedPreferences.getInstance();
+
+    await prefs.setInt('work', work);
+    await prefs.setInt('pauseCourte', pauseCourte);
+    await prefs.setInt('pauseLongue', pauseLongue);
+  }
+
 
   void startWork(){
     _raduis = 1;

@@ -32,14 +32,18 @@ class _SettingsState extends State<Settings> {
     controller.text = currentValue.toString();
   }
 
-  void saveValues() {
+  void saveValues() async {
     setState(() {
       widget.timer.work = int.tryParse(workController.text) ?? widget.timer.work;
       widget.timer.pauseCourte = int.tryParse(shortBreakController.text) ?? widget.timer.pauseCourte;
       widget.timer.pauseLongue = int.tryParse(longBreakController.text) ?? widget.timer.pauseLongue;
     });
-    Navigator.pop(context); // Revenir à la page principale
+
+    await widget.timer.saveValues();
+
+    Navigator.pop(context); // Revenir à l'accueil
   }
+
 
 
   @override

@@ -6,28 +6,35 @@ import 'package:percent_indicator/percent_indicator.dart';
 import 'timer.dart';
 import 'widget.dart';
 
-class Homepage extends StatelessWidget {
+class Homepage extends StatefulWidget {
    Homepage({super.key});
 
+  @override
+  State<Homepage> createState() => _HomepageState();
+}
+
+class _HomepageState extends State<Homepage> {
   final paddingDefault = 8.0;
   final CountTimer timer = CountTimer();
-  final List<PopupMenuEntry<String>> _listmenu = [
-    PopupMenuItem(
-   value: "Parametre",
-   child: Text("Parametre")
-   )
-  ];
 
-  void gotoSettings(BuildContext context){
-    Navigator.push(
-        context, MaterialPageRoute(
-        builder: (context)=> Settings(timer)
-      )
-    );
-  }
   @override
   Widget build(BuildContext context) {
+    return FutureBuilder(
+      future: timer.loadValues(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState != ConnectionState.done) {
+          return Scaffold(
+            body: Center(
+              child: CircularProgressIndicator(),
+            ),
+          );
+        }
+        return _buildMainScreen(context);
+      },
+    );
+  }
 
+  Widget _buildMainScreen(BuildContext context) {
     timer.startWork();
     return Scaffold(
       appBar: AppBar(
@@ -36,49 +43,52 @@ class Homepage extends StatelessWidget {
         backgroundColor: Theme.of(context).primaryColor,
         actions: [
           PopupMenuButton(
-              itemBuilder: (context){
-                return _listmenu;
-              },
-            onSelected: (value){
-                if(value == "Parametre"){
-                  gotoSettings(context);
-                }
-
+            itemBuilder: (context) {
+              return [
+                PopupMenuItem(
+                  value: "Parametre",
+                  child: Text("Parametre"),
+                )
+              ];
+            },
+            onSelected: (value) {
+              if (value == "Parametre") {
+                gotoSettings(context);
+              }
             },
           )
         ],
       ),
       body: LayoutBuilder(
-          builder: (context, BoxConstraints contraints){
-            final double width = contraints.maxWidth;
-            final double height = contraints.maxHeight;
-            return Column(
-              children: [
-                Row(
-                  children: [
-                    Expanded(
-                      child: Padding(
-                        padding: EdgeInsets.all(paddingDefault),
-                        child: Button(color: Colors.blueAccent, size: 0, text: "Travail", onPresed:()=> timer.startWork(),),
-                      ),
+        builder: (context, BoxConstraints constraints) {
+          final double width = constraints.maxWidth;
+          return Column(
+            children: [
+              Row(
+                children: [
+                  Expanded(
+                    child: Padding(
+                      padding: EdgeInsets.all(paddingDefault),
+                      child: Button(color: Colors.blueAccent, size: 0, text: "Travail", onPresed:()=> timer.startWork(),),
                     ),
-                    Expanded(
-                      child: Padding(
-                        padding: EdgeInsets.all(paddingDefault),
-                        child: Button(color: Colors.lightBlueAccent, size: 0, text: "Pause courte", onPresed:()=>timer.startBreak(true),),
+                  ),
+                  Expanded(
+                    child: Padding(
+                      padding: EdgeInsets.all(paddingDefault),
+                      child: Button(color: Colors.lightBlueAccent, size: 0, text: "Pause courte", onPresed:()=>timer.startBreak(true),),
 
-                      ),
                     ),
-                    Expanded(
-                      child: Padding(
-                        padding: EdgeInsets.all(paddingDefault),
-                        child: Button(color: Colors.blueGrey, size: 0, text: "Pause longue", onPresed:()=>timer.startBreak(false)),
+                  ),
+                  Expanded(
+                    child: Padding(
+                      padding: EdgeInsets.all(paddingDefault),
+                      child: Button(color: Colors.blueGrey, size: 0, text: "Pause longue", onPresed:()=>timer.startBreak(false)),
 
-                      ),
                     ),
-                  ],
-                ),
-                StreamBuilder(
+                  ),
+                ],
+              ),
+              StreamBuilder(
                   stream: timer.stream(),
                   initialData: "00:00",
                   builder: (context, asyncSnapshot) {
@@ -127,29 +137,40 @@ class Homepage extends StatelessWidget {
 
                     );
                   }
-                ),
-                Row(
-                  children: [
-                    Expanded(
-                        child: Padding(
-                          padding: EdgeInsets.all(paddingDefault),
-                          child: Button(size: 0, color: Colors.red, text: "stop", onPresed:()=> timer.stopTimer()),
-                        )
-                    ),
-                    Expanded(
-                        child: Padding(
-                          padding: EdgeInsets.all(paddingDefault),
-                          child: Button(size: 0, color: Colors.green, text: "start", onPresed:()=> timer.startTimer()),
-                        )
-                    )
-                  ],
-                )
-
-
-              ],
-            );
-          }
+              ),
+              Row(
+                children: [
+                  Expanded(
+                      child: Padding(
+                        padding: EdgeInsets.all(paddingDefault),
+                        child: Button(size: 0, color: Colors.red, text: "stop", onPresed:()=> timer.stopTimer()),
+                      )
+                  ),
+                  Expanded(
+                      child: Padding(
+                        padding: EdgeInsets.all(paddingDefault),
+                        child: Button(size: 0, color: Colors.green, text: "start", onPresed:()=> timer.startTimer()),
+                      )
+                  )
+                ],
+              )
+            ],
+          );
+        },
       ),
     );
+  }
+
+  void gotoSettings(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => Settings(timer),
+      ),
+    ).then((_) {
+      setState(() {
+        timer.startWork();
+      });
+    });
   }
 }
