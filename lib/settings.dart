@@ -20,9 +20,9 @@ class _SettingsState extends State<Settings> {
   void initState() {
     super.initState();
 
-      workController = TextEditingController(text: widget.timer.work.toString());
-      shortBreakController = TextEditingController(text: widget.timer.pauseCourte.toString());
-      longBreakController = TextEditingController(text: widget.timer.pauseLongue.toString());
+      workController = TextEditingController(text: "30");
+      shortBreakController = TextEditingController(text: "5");
+      longBreakController = TextEditingController(text: "10");
   }
 
   void updateValue(TextEditingController controller, int delta) {
@@ -44,7 +44,64 @@ class _SettingsState extends State<Settings> {
     Navigator.pop(context); // Revenir à l'accueil
   }
 
-
+  Widget buildSettingCard({
+    required IconData icon,
+    required String title,
+    required TextEditingController controller,
+    required VoidCallback onIncrement,
+    required VoidCallback onDecrement,
+  }) {
+    return Card(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      elevation: 3,
+      child: Padding(
+        padding: EdgeInsets.all(12),
+        child: Row(
+          children: [
+            Icon(icon, size: 32, color: Theme.of(context).primaryColor),
+            SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(height: 8),
+                  Row(
+                    children: [
+                      IconButton(
+                        icon: Icon(Icons.remove_circle, color: Colors.red),
+                        onPressed: onDecrement,
+                      ),
+                      SizedBox(
+                        width: 50,
+                        child: TextField(
+                          controller: controller,
+                          textAlign: TextAlign.center,
+                          keyboardType: TextInputType.number,
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(),
+                            isDense: true,
+                            contentPadding: EdgeInsets.symmetric(vertical: 8),
+                          ),
+                        ),
+                      ),
+                      IconButton(
+                        icon: Icon(Icons.add_circle, color: Colors.green),
+                        onPressed: onIncrement,
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 
   @override
   void dispose() {
@@ -70,49 +127,72 @@ class _SettingsState extends State<Settings> {
 
       ),
 
-      body:GridView.count(
-        crossAxisCount: 3,
-        childAspectRatio: 3,
-        scrollDirection: Axis.vertical,
-        mainAxisSpacing: 10,
-        crossAxisSpacing: 10,
-        children: [
-          Text("Travail", style: style,),
-          Text(""),
-          Text(""),
-          SettingsButton(Colors.blue, "-", 1, onPressed: ()=>updateValue(workController, -1),),
-          TextField(
-            controller: workController,
-            style: style,
-            textAlign: TextAlign.center,
-            keyboardType: TextInputType.number,
-          ),
-          SettingsButton(Colors.blue, "+", 1, onPressed: ()=>updateValue(workController, 1),),
-
-          Text("Pause courte", style: style,),
-          Text(""),
-          Text(""),
-          SettingsButton(Colors.blue, "-", 1, onPressed: ()=>updateValue(shortBreakController, -1),),
-          TextField(
-            controller: shortBreakController,
-            style: style,
-            textAlign: TextAlign.center,
-            keyboardType: TextInputType.number,
-          ),
-          SettingsButton(Colors.blue, "+", 1, onPressed: ()=> updateValue(shortBreakController, 1)),
-          Text("Pause longue", style: style,),
-          Text(""),
-          Text(""),
-          SettingsButton(Colors.blue, "-", 1, onPressed: ()=> updateValue(longBreakController, -1),),
-          TextField(
-            controller: longBreakController,
-            style: style,
-            textAlign: TextAlign.center,
-            keyboardType: TextInputType.number,
-          ),
-          SettingsButton(Colors.blue, "+", 1, onPressed: ()=> updateValue(longBreakController, 1),),
-        ],
-      ) ,
+      body: SingleChildScrollView(
+        padding: EdgeInsets.all(12),
+        child: Column(
+          children: [
+            buildSettingCard(
+              icon: Icons.work,
+              title: "Travail",
+              controller: workController,
+              onIncrement: () {
+                setState(() {
+                  int value = int.parse(workController.text);
+                  workController.text = (value + 1).toString();
+                });
+              },
+              onDecrement: () {
+                setState(() {
+                  int value = int.parse(workController.text);
+                  if (value > 1) {
+                    workController.text = (value - 1).toString();
+                  }
+                });
+              },
+            ),
+            SizedBox(height: 12),
+            buildSettingCard(
+              icon: Icons.coffee,
+              title: "Pause courte",
+              controller: shortBreakController,
+              onIncrement: () {
+                setState(() {
+                  int value = int.parse(shortBreakController.text);
+                  shortBreakController.text = (value + 1).toString();
+                });
+              },
+              onDecrement: () {
+                setState(() {
+                  int value = int.parse(shortBreakController.text);
+                  if (value > 1) {
+                    shortBreakController.text = (value - 1).toString();
+                  }
+                });
+              },
+            ),
+            SizedBox(height: 12),
+            buildSettingCard(
+              icon: Icons.hotel,
+              title: "Pause longue",
+              controller: longBreakController,
+              onIncrement: () {
+                setState(() {
+                  int value = int.parse(longBreakController.text);
+                  longBreakController.text = (value + 1).toString();
+                });
+              },
+              onDecrement: () {
+                setState(() {
+                  int value = int.parse(longBreakController.text);
+                  if (value > 1) {
+                    longBreakController.text = (value - 1).toString();
+                  }
+                });
+              },
+            ),
+          ],
+        ),
+      ),
     );
 
   }

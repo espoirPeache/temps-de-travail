@@ -94,26 +94,40 @@ class _HomepageState extends State<Homepage> {
                     children: [
                       Expanded(
                         child: Padding(
-                          padding: EdgeInsets.all(paddingDefault),
-                          child: Button(color: Colors.blueAccent, size: 0, text: "Travail", onPresed:()=> timer.startWork(),),
+                          padding: EdgeInsets.all(8),
+                          child: CustomButton(
+                            color: Colors.blueAccent,
+                            icon: Icons.work,
+                            text: "Travail",
+                            onPressed: () => timer.startWork(),
+                          ),
                         ),
                       ),
                       Expanded(
                         child: Padding(
-                          padding: EdgeInsets.all(paddingDefault),
-                          child: Button(color: Colors.lightBlueAccent, size: 0, text: "Pause courte", onPresed:()=>timer.startBreak(true),),
-
+                          padding: EdgeInsets.all(8),
+                          child: CustomButton(
+                            color: Colors.lightBlueAccent,
+                            icon: Icons.coffee,
+                            text: "Pause courte",
+                            onPressed: () => timer.startBreak(true),
+                          ),
                         ),
                       ),
                       Expanded(
                         child: Padding(
-                          padding: EdgeInsets.all(paddingDefault),
-                          child: Button(color: Colors.blueGrey, size: 0, text: "Pause longue", onPresed:()=>timer.startBreak(false)),
-
+                          padding: EdgeInsets.all(8),
+                          child: CustomButton(
+                            color: Colors.blueGrey,
+                            icon: Icons.hotel,
+                            text: "Pause longue",
+                            onPressed: () => timer.startBreak(false),
+                          ),
                         ),
                       ),
                     ],
                   ),
+
                   StreamBuilder(
                       stream: timer.stream(),
                       initialData: "00:00",
@@ -167,19 +181,30 @@ class _HomepageState extends State<Homepage> {
                   Row(
                     children: [
                       Expanded(
-                          child: Padding(
-                            padding: EdgeInsets.all(paddingDefault),
-                            child: Button(size: 0, color: Colors.red, text: "stop", onPresed:()=> timer.stopTimer()),
-                          )
+                        child: Padding(
+                          padding: EdgeInsets.all(8),
+                          child: CustomButton(
+                            color: Colors.red,
+                            icon: Icons.stop,
+                            text: "Stop",
+                            onPressed: () => timer.stopTimer(),
+                          ),
+                        ),
                       ),
                       Expanded(
-                          child: Padding(
-                            padding: EdgeInsets.all(paddingDefault),
-                            child: Button(size: 0, color: Colors.green, text: "start", onPresed:()=> timer.startTimer()),
-                          )
-                      )
+                        child: Padding(
+                          padding: EdgeInsets.all(8),
+                          child: CustomButton(
+                            color: Colors.green,
+                            icon: Icons.play_arrow,
+                            text: "Start",
+                            onPressed: () => timer.startTimer(),
+                          ),
+                        ),
+                      ),
                     ],
-                  )
+                  ),
+
                 ],
               );
             },

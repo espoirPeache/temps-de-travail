@@ -44,3 +44,40 @@ class SettingsButton extends StatelessWidget {
     );
   }
 }
+// utilisation de la classe CustomButton pour créer des boutons personnalisé
+
+class CustomButton extends StatelessWidget {
+  final Color color;
+  final String text;
+  final IconData icon;
+  final VoidCallback onPressed;
+
+  const CustomButton({
+    super.key,
+    required this.color,
+    required this.text,
+    required this.icon,
+    required this.onPressed,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton.icon(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: color,
+        foregroundColor: Colors.white,
+        minimumSize: Size(double.infinity, 48), // Large bouton
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
+        elevation: 4,
+      ),
+      onPressed: onPressed,
+      icon: Icon(icon),
+      label: Text(
+        text,
+        style: TextStyle(fontSize: 16),
+      ),
+    );
+  }
+}
