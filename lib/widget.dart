@@ -26,22 +26,21 @@ class SettingsButton extends StatelessWidget {
   final Color color;
   final String text;
   final int value;
+  final VoidCallback onPressed;
 
-  const SettingsButton(this.color, this.text, this.value, {super.key});
+  const SettingsButton(this.color, this.text, this.value, {required this.onPressed, super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialButton(
-        child:
-          Text(text,
-            style: TextStyle(
-              color: Colors.white70
-            ),
+      child: Text(
+        text,
+        style: TextStyle(
+          color: Colors.white70,
         ),
-      onPressed: (){
-
-      },
+      ),
+      onPressed: onPressed,
       color: color,
-
     );
   }
 }

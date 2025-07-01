@@ -8,7 +8,7 @@ class CountTimer{
   late Duration _time;
   late Duration _fulltime;
 
-  final int _work = 20;
+  int work = 20;
   int pauseCourte = 5;
   int pauseLongue = 15;
   var percent;
@@ -39,7 +39,7 @@ class CountTimer{
 
   void startWork(){
     _raduis = 1;
-    _time = Duration(minutes: _work, seconds: 0);
+    _time = Duration(minutes: work, seconds: 0);
     _fulltime = _time;
   }
   void stopTimer(){

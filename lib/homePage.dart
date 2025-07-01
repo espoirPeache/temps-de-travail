@@ -21,7 +21,7 @@ class Homepage extends StatelessWidget {
   void gotoSettings(BuildContext context){
     Navigator.push(
         context, MaterialPageRoute(
-        builder: (context)=> Settings()
+        builder: (context)=> Settings(timer)
       )
     );
   }
