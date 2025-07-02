@@ -33,14 +33,14 @@ class SettingsButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialButton(
+      onPressed: onPressed,
+      color: color,
       child: Text(
         text,
         style: TextStyle(
           color: Colors.white70,
         ),
       ),
-      onPressed: onPressed,
-      color: color,
     );
   }
 }

@@ -1,10 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:gestion_de_temps/homePage.dart';
 
 import 'timer.dart';
 
-void main(){
+void main() async{
+
+  WidgetsFlutterBinding.ensureInitialized();
+  await preloadFont();
   runApp(MyApp());
+}
+
+Future<void> preloadFont() async {
+  final fontLoader = FontLoader('Digital');
+  fontLoader.addFont(rootBundle.load("fonts/digital-7 (mono).ttf"));
+  await fontLoader.load();
 }
 
 class MyApp extends StatelessWidget {
